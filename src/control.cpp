@@ -128,7 +128,7 @@ void controlThread(void)
 
     if(CY_RET_SUCCESS != status)
     {
-        printf("CapSense initialization failed. Status code: %lu\r\n", (unsigned long)status);
+        printf("\033[10;1HCapSense initialization failed. Status code: %lu\r\n", (unsigned long)status);
         while (true) {
             ThisThread::sleep_for(1000s);
         }
@@ -158,7 +158,7 @@ void controlThread(void)
      * started. 
      */
     Cy_CapSense_ScanAllWidgets(&cy_capsense_context); 
-    printf("Application has started. Touch any CapSense button or slider.\r\n");
+    printf("\033[10;1HApplication has started. Touch any CapSense button or slider.\r\n");
 
     /* The EZI2C pins for the target CYW9P62S1_43012EVB_01 are P1[0] and P1[1].
      * The SCB associated with these pins is not deep sleep wake-up capable.
@@ -257,13 +257,13 @@ void ProcessTouchStatus(void)
     
     if(currBtn0Status != prevBtn0Status)
     {
-        printf("Button_0 status: %lu\r\n", (unsigned long)currBtn0Status);
+        printf("\033[7;1HButton_0 status: %lu\r\n", (unsigned long)currBtn0Status);
         prevBtn0Status = currBtn0Status;
     }
     
     if(currBtn1Status != prevBtn1Status)
     {
-        printf("Button_1 status: %lu\r\n", (unsigned long)currBtn1Status);
+        printf("\033[8;1HButton_1 status: %lu\r\n", (unsigned long)currBtn1Status);
         prevBtn1Status = currBtn1Status;
     } 
 
@@ -273,7 +273,7 @@ void ProcessTouchStatus(void)
 
         if(currSliderPos != prevSliderPos)
         {
-            printf("Slider position: %lu\r\n", (unsigned long)currSliderPos);
+            printf("\033[9;1HSlider position: %lu\r\n", (unsigned long)currSliderPos);
             prevSliderPos = currSliderPos;
         }
     }
