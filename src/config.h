@@ -10,6 +10,8 @@
 #define TEMP_SET_TOPIC "/tempSet"
 #define TEMPERATURE_SET_TOPIC "ASR_Thing/tempSet"
 #define TEMPERATURE_TOPIC "/temp"
+#define HEATER_STATUS "/heaterStatus"
+#define LIGHT_STATUS "/lightStatus"
 #define GET_TIME_TOPIC "getTime"
 #define TIME_TOPIC "timeStamp"
 #define MQTTClient_QOS2 1

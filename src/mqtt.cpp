@@ -107,6 +107,8 @@ public:
     uint32_t pubCount = 0;
     uint32_t lastPC = 0;  // previous loop value of pubCount
     uint32_t lastRC = 0;  // previous loop value of rxCount
+    bool currHeater = false;
+    bool currLight = false;
 
     nsapi_size_or_error_t result = _net->connect();
     if (result != 0) {
@@ -188,7 +190,7 @@ public:
     message.retained = false;
     message.dup = false;
     message.payload = (void *)buffer;
-    message.payloadlen = strlen(buffer) + 1;
+    message.payloadlen = strlen(buffer);
 //    strcpy(topic, THING_NAME);
     strcpy(topic, ANNOUNCE_TOPIC);
     result = client.publish(topic, message);
@@ -229,7 +231,7 @@ public:
       sprintf(buffer, "Subscribed to %s", topic);
     displayText(buffer, 1, 6);
    message.payload = (void *)buffer;
-    message.payloadlen = strlen(buffer) + 1;
+    message.payloadlen = strlen(buffer);
 //    strcpy(topic, THING_NAME);
     strcpy(topic, GET_TIME_TOPIC);
     result = client.publish(topic, message);
@@ -256,7 +258,7 @@ public:
       if ((i & 0x1ff) == 0) {
           sprintf(buffer, "%2.1f  ", myData.temperature);
           message.payload = (void *)buffer;
-          message.payloadlen = strlen(buffer) + 1;
+          message.payloadlen = strlen(buffer);
           strcpy(topic, THING_NAME);
           strcat(topic, TEMPERATURE_TOPIC);
 
@@ -279,7 +281,7 @@ public:
       if ((i & 0x1ff) == 0x100) {
           sprintf(buffer, "%3.1f  ", myData.lightLevel);
           message.payload = (void *)buffer;
-          message.payloadlen = strlen(buffer) + 1;
+          message.payloadlen = strlen(buffer);
           strcpy(topic, THING_NAME);
           strcat(topic, LIGHT_LEVEL_TOPIC);
 
@@ -298,6 +300,53 @@ public:
             return;
           }
       }
+      if (currHeater != myData.heaterStatus) {
+          sprintf(buffer, "%s", myData.heaterStatus?"on":"off");
+          message.payload = (void *)buffer;
+          message.payloadlen = strlen(buffer);
+          strcpy(topic, THING_NAME);
+          strcat(topic, HEATER_STATUS);
+
+          result = client.publish(topic, message);
+          if (result == 0) {
+            strcat(buffer, topic);
+            strcat(buffer, "      ");
+            displayText(buffer, 1, 13);
+            pubCount++;
+          } 
+          else {
+            sprintf(buffer, "publish heater status failed %d", result);
+            displayText(buffer, 1, 13);
+            sprintf(buffer, "Pub Fail: %d", pubFailCount++);
+            displayText(buffer, 60, 11);
+            return;
+          }
+          currHeater = myData.heaterStatus;
+      }
+      if (currLight != myData.lightStatus) {
+          sprintf(buffer, "%s", myData.lightStatus?"on":"off");
+          message.payload = (void *)buffer;
+          message.payloadlen = strlen(buffer);
+          strcpy(topic, THING_NAME);
+          strcat(topic, LIGHT_STATUS);
+
+          result = client.publish(topic, message);
+          if (result == 0) {
+            strcat(buffer, topic);
+            strcat(buffer, "      ");
+            displayText(buffer, 1, 13);
+            pubCount++;
+          } 
+          else {
+            sprintf(buffer, "publish light status failed %d", result);
+            displayText(buffer, 1, 13);
+            sprintf(buffer, "Pub Fail: %d", pubFailCount++);
+            displayText(buffer, 60, 11);
+            return;
+          }
+          currLight = myData.lightStatus;
+      }
+
       if (pubCount > lastPC) {
             sprintf(buffer, "%5d", pubCount);
             displayText(buffer, 56, 13);
