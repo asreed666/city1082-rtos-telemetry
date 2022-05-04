@@ -3,9 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 #include "mbed.h"
+#include "GUI.h"
 #include <ios>
 #include <iostream>
 #include "string.h"
+#include "config.h"
 #include <iomanip>
 #include "display.h"
 #include "vt100.h"
@@ -46,6 +48,23 @@ void displayThread(void)
     cout << "\033)A";  // Select UK Character Set
     ThisThread::sleep_for(10ms);
     cout << "\033[?25l" ;  // Hide Cursor
+#ifdef TARGET_CY8CKIT_062_WIFI_BT
+    GUI_Init();
+    GUI_Clear();
+    cout << "SHT40 From Adafruit"  << endl;
+    GUI_SetFont(GUI_FONT_10_1);
+    GUI_SetTextAlign(GUI_TA_LEFT);
+    GUI_SetFont(GUI_FONT_20B_1);
+    GUI_SetColor(GUI_WHITE);
+    GUI_SetBkColor(GUI_BLACK);
+    GUI_SetFont(GUI_FONT_13B_1);
+//    GUI_SetTextAlign(GUI_TA_CENTER);
+    GUI_DispStringAt("Telemetry Data", 0, 0);
+    GUI_DispStringAt(THING_NAME, 320 - 55, 0);
+    GUI_DispStringAt("MQTT Broker:", 320, 0);
+    GUI_SetTextAlign(GUI_TA_RIGHT);
+    GUI_DispStringAt(MQTT_BROKER, 320, 0);
+#endif
     while (true) {
         txt_t *txtMsg;
         auto tevent = tqueue.try_get(&txtMsg);
@@ -56,9 +75,16 @@ void displayThread(void)
                 (txtMsg->txt[2] == 'S')) 
             {
                 printf("\033[2J");
+#ifdef TARGET_CY8CKIT_062_WIFI_BT
+                GUI_Clear();
+#endif
             } 
             else {
-                std::cout << "\033[" << txtMsg->y << ";" << txtMsg->x << "H" << txtMsg->txt;
+                std::cout << "\033[" << (txtMsg->y) * 10 << ";" << (txtMsg->x) * 10<< "H" << txtMsg->txt;
+#ifdef TARGET_CY8CKIT_062_WIFI_BT
+                GUI_DispStringAt(txtMsg->txt, txtMsg->y, txtMsg->x);
+#endif
+
             }
             
         
