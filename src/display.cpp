@@ -74,15 +74,16 @@ void displayThread(void)
                 (txtMsg->txt[1] == 'L')&&
                 (txtMsg->txt[2] == 'S')) 
             {
-                printf("\033[2J");
+                std::cout << "\033[2J";
 #ifdef TARGET_CY8CKIT_062_WIFI_BT
                 GUI_Clear();
+
 #endif
             } 
             else {
-                std::cout << "\033[" << (txtMsg->y) * 10 << ";" << (txtMsg->x) * 10<< "H" << txtMsg->txt;
+                std::cout << "\033[" << (txtMsg->y) << ";" << (txtMsg->x) << "H" << txtMsg->txt;
 #ifdef TARGET_CY8CKIT_062_WIFI_BT
-                GUI_DispStringAt(txtMsg->txt, txtMsg->y, txtMsg->x);
+                GUI_DispStringAt(txtMsg->txt, (txtMsg->x)*5, (txtMsg->y) *12);
 #endif
 
             }
@@ -100,27 +101,27 @@ void initDisplay() {
 }
 void updateDisplay() {
     char buffer[80];
-    displayText( "\033[0;33mTemperature:\033[K", 1, 2);
+    displayText( "Temperature:", 1, 2);
     displayText( "C", 21, 2);
     displayText( "Set Temp", 26, 2);
     displayText( "C", 43, 2);
     displayText( "Heater Status:", 48, 2);
-    displayText( "Light Level:\033[K", 1, 3);
+    displayText( "Light Level:", 1, 3);
     displayText( "%", 21, 3);
     displayText( "Set Light", 26, 3);
     displayText( "%", 43, 3);
-    displayText( "Light Status:\033[?25l", 48, 3);
+    displayText( "Light Status:", 48, 3);
     displayText( "Sub Count:", 44, 12);
     displayText( "Pub Count:", 44, 13);
-    sprintf(buffer, "\033[1;33m%2.1f", myData.tempSet);
+    sprintf(buffer, "%2.1f", myData.tempSet);
     displayText(buffer, 37, 2);
     sprintf(buffer, "%s", myData.heaterStatus?
-                    "\033[1;31mON  \033[1;37m":"\033[1;32mOFF\033[1;37m");
+                    "ON  ":"OFF");
     displayText(buffer, 63, 2);
-    sprintf(buffer, "\033[1;33m%2.1f", myData.lightSet);
+    sprintf(buffer, "%2.1f", myData.lightSet);
     displayText(buffer, 37, 3);
     sprintf(buffer, "%s", myData.lightStatus?
-                    "\033[1;31mON  \033[1;37m":"\033[1;32mOFF\033[1;37m");
+                    "ON  ":"OFF");
     displayText(buffer, 63, 3);
 
     myData.updateDisplay = false;

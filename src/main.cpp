@@ -32,5 +32,8 @@ int main(void)
     statusRunningThreadHandle.start(callback(statusThread));
     actuatorThreadHandle.start(callback(actuatorsThread));
     mqttThreadHandle.start(callback(mqttThread));
+    while (true) {
+        ThisThread::sleep_for(1000ms);
+    }
     /* never get here */
 }

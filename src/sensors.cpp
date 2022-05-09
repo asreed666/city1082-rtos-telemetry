@@ -1,3 +1,4 @@
+#include "DigitalOut.h"
 #include "mbed.h"
 #include "display.h"
 #include <ios>
@@ -26,6 +27,7 @@
 #ifdef TARGET_CY8CKIT_062_WIFI_BT
 #define LDR_PORT    P10_0
 #define THERM_OUT P10_6
+DigitalOut tmp36V(P9_6);
 #else
 #define LDR_PORT    P10_4
 #define THERM_OUT P10_1
@@ -49,6 +51,7 @@ void sendThread(void)
             ThisThread::sleep_for(10ms);
         }
 //    ThisThread::sleep_for(2s);
+    tmp36V = 1;
     while (true) {
         if (myData.updateDisplay) updateDisplay();
 
@@ -68,7 +71,7 @@ void sendThread(void)
 float readTemp()
 {
 #ifdef TARGET_CY8CKIT_062_WIFI_BT
-    float temperatureC = (tempVoltage.read() *100) - 50;
+    float temperatureC = (tempVoltage.read() *240) - 50;
 #else
     float refVoltage = tempVoltage.read() * 2.4; // Range of ADC 0->2*Vref
     float refCurrent = refVoltage  / R_REFERENCE; // 10k Reference Resistor

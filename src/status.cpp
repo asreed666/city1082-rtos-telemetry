@@ -8,7 +8,7 @@
 extern struct dataSet myData;
 
 void statusThread() {
-    DigitalOut statusLed(P13_7);
+    DigitalOut statusLed(LED1);
     time_t rawtime;
     struct tm * timeinfo;
     char buffer [128];

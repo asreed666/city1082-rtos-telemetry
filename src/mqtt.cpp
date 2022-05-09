@@ -18,8 +18,8 @@ extern bool displayUp;
 uint32_t rxCount = 0;
 uint32_t pubFailCount = 0;
 
-mbed::DigitalOut rxLed(P8_0);
-mbed::DigitalOut debugLed(P9_1);
+mbed::DigitalOut rxLed(LED2);
+mbed::DigitalOut debugLed(LED5);
 
 #if MBED_CONF_APP_USE_TLS_SOCKET
 #include "root_ca_cert.h"
@@ -61,6 +61,7 @@ void messageTimeArrived(MQTT::MessageData &md) {
       int digit =  rxed[i]-48;
       timeRx = (timeRx * 0x0a) + digit;
   }
+  timeRx += 3600;
   set_time(timeRx);  // timestamp is a long integer
  
   rxCount++;
