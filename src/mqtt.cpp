@@ -18,8 +18,8 @@ extern bool displayUp;
 uint32_t rxCount = 0;
 uint32_t pubFailCount = 0;
 
-mbed::DigitalOut rxLed(LED2);
-mbed::DigitalOut debugLed(LED5);
+mbed::DigitalOut rxLed(P1_1);
+mbed::DigitalOut debugLed(P1_5);
 
 #if MBED_CONF_APP_USE_TLS_SOCKET
 #include "root_ca_cert.h"
