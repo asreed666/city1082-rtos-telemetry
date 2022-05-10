@@ -51,7 +51,6 @@ void displayThread(void)
 #ifdef TARGET_CY8CKIT_062_WIFI_BT
     GUI_Init();
     GUI_Clear();
-    cout << "SHT40 From Adafruit"  << endl;
     GUI_SetFont(GUI_FONT_10_1);
     GUI_SetTextAlign(GUI_TA_LEFT);
     GUI_SetFont(GUI_FONT_20B_1);
@@ -83,7 +82,7 @@ void displayThread(void)
             else {
                 std::cout << "\033[" << (txtMsg->y) << ";" << (txtMsg->x) << "H" << txtMsg->txt;
 #ifdef TARGET_CY8CKIT_062_WIFI_BT
-                GUI_DispStringAt(txtMsg->txt, (txtMsg->x)*5, (txtMsg->y) *12);
+                GUI_DispStringAt(txtMsg->txt, (txtMsg->x)*6, (txtMsg->y) *12);
 #endif
 
             }
@@ -105,24 +104,24 @@ void updateDisplay() {
     displayText( "C", 21, 2);
     displayText( "Set Temp", 26, 2);
     displayText( "C", 43, 2);
-    displayText( "Heater Status:", 48, 2);
+//    displayText( "Heater Status:", 48, 2);
     displayText( "Light Level:", 1, 3);
     displayText( "%", 21, 3);
     displayText( "Set Light", 26, 3);
     displayText( "%", 43, 3);
-    displayText( "Light Status:", 48, 3);
-    displayText( "Sub Count:", 44, 12);
-    displayText( "Pub Count:", 44, 13);
+ //   displayText( "Light Status:", 48, 3);
+    displayText( "Sub Count:", 1, 12);
+    displayText( "Pub Count:", 1, 13);
     sprintf(buffer, "%2.1f", myData.tempSet);
     displayText(buffer, 37, 2);
     sprintf(buffer, "%s", myData.heaterStatus?
                     "ON  ":"OFF");
-    displayText(buffer, 63, 2);
+//    displayText(buffer, 63, 2);
     sprintf(buffer, "%2.1f", myData.lightSet);
     displayText(buffer, 37, 3);
     sprintf(buffer, "%s", myData.lightStatus?
                     "ON  ":"OFF");
-    displayText(buffer, 63, 3);
+//    displayText(buffer, 63, 3);
 
     myData.updateDisplay = false;
 }

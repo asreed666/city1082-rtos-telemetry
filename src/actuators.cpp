@@ -37,15 +37,15 @@ void actuatorsThread() {
         }
         if (myData.lightStatus != (lightIndicator ^ TARGET_CY8CKIT_062_WIFI_BT)) {
             myData.lightStatus = (lightIndicator ^ TARGET_CY8CKIT_062_WIFI_BT);
-            sprintf(buffer, "%s", (lightIndicator ^ TARGET_CY8CKIT_062_WIFI_BT)?
-                    "\033[1;31mON  \033[1;37m":"\033[1;32mOFF\033[1;37m");
-            displayText(buffer, 63, 3);
+//            sprintf(buffer, "%s", (lightIndicator ^ TARGET_CY8CKIT_062_WIFI_BT)?
+//                    "\033[1;31mON  \033[1;37m":"\033[1;32mOFF\033[1;37m");
+//            displayText(buffer, 63, 3);
         }
         if (myData.heaterStatus != (heatIndicator ^ TARGET_CY8CKIT_062_WIFI_BT)) {
             myData.heaterStatus = (heatIndicator ^ TARGET_CY8CKIT_062_WIFI_BT);
-            sprintf(buffer, "%s", (heatIndicator ^ TARGET_CY8CKIT_062_WIFI_BT)?
-                    "\033[1;31mON  \033[1;37m":"\033[1;32mOFF\033[1;37m");
-            displayText(buffer, 63, 2);
+//            sprintf(buffer, "%s", (heatIndicator ^ TARGET_CY8CKIT_062_WIFI_BT)?
+//                    "\033[1;31mON  \033[1;37m":"\033[1;32mOFF\033[1;37m");
+//            displayText(buffer, 63, 2);
         }
         ThisThread::sleep_for(100ms);
     }

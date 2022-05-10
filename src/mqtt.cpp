@@ -267,12 +267,12 @@ public:
           if (result == 0) {
             strcat(buffer, topic);
             strcat(buffer, "       ");
-            displayText(buffer, 1, 12);
+            displayText(buffer, 1, 14);
             pubCount++;
           } 
           else {
             sprintf(buffer, "publish temperature reading failed %d", result);
-            displayText(buffer, 1, 12);
+            displayText(buffer, 1, 20);
             sprintf(buffer, "Pub Fail: %d", pubFailCount++);
             displayText(buffer, 60, 11);
             return;
@@ -290,7 +290,7 @@ public:
           if (result == 0) {
             strcat(buffer, topic);
             strcat(buffer, "      ");
-            displayText(buffer, 1, 13);
+            displayText(buffer, 1, 15);
             pubCount++;
           } 
           else {
@@ -312,7 +312,7 @@ public:
           if (result == 0) {
             strcat(buffer, topic);
             strcat(buffer, "      ");
-            displayText(buffer, 1, 13);
+//            displayText(buffer, 1, 16);
             pubCount++;
           } 
           else {
@@ -335,14 +335,14 @@ public:
           if (result == 0) {
             strcat(buffer, topic);
             strcat(buffer, "      ");
-            displayText(buffer, 1, 13);
+            displayText(buffer, 1, 15);
             pubCount++;
           } 
           else {
             sprintf(buffer, "publish light status failed %d", result);
             displayText(buffer, 1, 13);
             sprintf(buffer, "Pub Fail: %d", pubFailCount++);
-            displayText(buffer, 60, 11);
+//            displayText(buffer, 60, 11);
             return;
           }
           currLight = myData.lightStatus;
@@ -350,12 +350,12 @@ public:
 
       if (pubCount > lastPC) {
             sprintf(buffer, "%5d", pubCount);
-            displayText(buffer, 56, 13);
+            displayText(buffer, 25, 13);
             lastPC = pubCount;
       }
       if (rxCount > lastRC) {
             sprintf(buffer, "%5d", rxCount);
-            displayText(buffer, 56, 12);
+            displayText(buffer, 25, 12);
             lastRC = rxCount;
       }
     }
