@@ -18,6 +18,12 @@
 #define LATITUDE_TOPIC "/gpsLat"
 #define LONGITUDE_TOPIC "/gpsLong"
 #define MOTION_TOPIC "/motion"
+#define RUN_STATUS_TOPIC "/runningStatus"
+#define RX_PRESSURE_TOPIC "CCP06/pressure"
+#define RX_LATITUDE_TOPIC "CCP06/gpsLat"
+#define RX_LONGITUDE_TOPIC "CCP06/gpsLong"
+#define RX_MOTION_TOPIC "CCP06/motion"
+#define RX_RUN_STATUS_TOPIC "CCP06/runningStatus"
 #define MQTT_BROKER "192.168.1.176"
 #define MQTTClient_QOS2 1
 #define LEDON 0

@@ -17,6 +17,8 @@
 #define HUMID_SET_VALUE 23
 #define WIFI_STATUS 30
 #define MQTT_STATUS 31
+#define SERVICE_STATUS 32
+
 
 struct dataSet{
     float temperature;
@@ -34,6 +36,7 @@ struct dataSet{
     bool wifiStatus = false;
     bool mqttStatus = false;
     bool updateDisplay = false;
+    bool serviceStatus = false;
 };
 
 void displayThread();

@@ -69,7 +69,7 @@ void messageTimeArrived(MQTT::MessageData &md) {
 }
 void messageGpsLatArrived(MQTT::MessageData &md) {
   MQTT::Message &message = md.message;
-  uint32_t len = md.message.payloadlen - 3;
+  uint32_t len = md.message.payloadlen;
   char rxed[len];
   strncpy(&myData.gpsLat[0], (char *)(&md.message.payload)[0], len);
   rxCount++;
@@ -77,7 +77,7 @@ void messageGpsLatArrived(MQTT::MessageData &md) {
 }
 void messageGpsLongArrived(MQTT::MessageData &md) {
   MQTT::Message &message = md.message;
-  uint32_t len = md.message.payloadlen - 3;
+  uint32_t len = md.message.payloadlen;
   char rxed[len];
   strncpy(&myData.gpsLong[0], (char *)(&md.message.payload)[0], len);
   rxCount++;
@@ -89,7 +89,7 @@ void messagePressureArrived(MQTT::MessageData &md) {
   char rxed[len + 1];
 
   strncpy(&rxed[0], (char *)(&md.message.payload)[0], len);
-  myData.pressure = atof(rxed);
+  myData.pressure = (atof(rxed));
   rxCount++;
   rxLed = !rxLed;
   myData.updateDisplay = true;
@@ -101,6 +101,17 @@ void messageMotionArrived(MQTT::MessageData &md) {
 
   strncpy(&rxed[0], (char *)(&md.message.payload)[0], len);
   myData.motion = atof(rxed);
+  rxCount++;
+  rxLed = !rxLed;
+  myData.updateDisplay = true;
+  }
+  void messageRunningStatusArrived(MQTT::MessageData &md) {
+  MQTT::Message &message = md.message;
+  uint32_t len = md.message.payloadlen;
+  char rxed[len + 1];
+
+  strncpy(&rxed[0], (char *)(&md.message.payload)[0], len);
+  myData.serviceStatus = (rxed[0] == 'R');;
   rxCount++;
   rxLed = !rxLed;
   myData.updateDisplay = true;
@@ -224,6 +235,7 @@ public:
       displayText("Client connection failed", 1, 1);
       return;
     }
+    client.yield(10);
     MQTT::Message message{};
     sprintf(buffer, "Hello World! from %s", THING_NAME);
     message.qos = MQTT::QOS0;
@@ -253,6 +265,7 @@ public:
     else
       sprintf(buffer, "Subscribed to %s", topic);
     displayText(buffer, 1, 5);
+//    client.yield(10);
     strcpy(topic, THING_NAME);
     strcat(topic, TEMP_SET_TOPIC); // this method fails to set up Callback correctly
     result = client.subscribe(TEMPERATURE_SET_TOPIC, MQTT::QOS0,
@@ -262,47 +275,61 @@ public:
     else
       sprintf(buffer, "Subscribed to %s", topic);
     displayText(buffer, 40, 5);
-    ThisThread::sleep_for(100ms);
+//    client.yield(10);
+
     strcpy(topic, THING_NAME);
-    strcat(topic, LATITUDE_TOPIC); // this method fails to set up Callback correctly
-    result = client.subscribe(LATITUDE_TOPIC, MQTT::QOS0,
+    strcpy(topic, LATITUDE_TOPIC); // this method fails to set up Callback correctly
+    result = client.subscribe(RX_LATITUDE_TOPIC, MQTT::QOS0,
                               messageGpsLatArrived);
     if (result != 0)
       sprintf(buffer, "Subscription Error %d", result);
     else
       sprintf(buffer, "Subscribed to %s", topic);
     displayText(buffer, 40, 5);    
-    ThisThread::sleep_for(100ms);
+//    client.yield(10);
     strcpy(topic, THING_NAME);
     strcat(topic, LONGITUDE_TOPIC); // this method fails to set up Callback correctly
-    result = client.subscribe(LONGITUDE_TOPIC, MQTT::QOS0,
+    result = client.subscribe(RX_LONGITUDE_TOPIC, MQTT::QOS0,
                               messageGpsLongArrived);
     if (result != 0)
       sprintf(buffer, "Subscription Error %d", result);
     else
       sprintf(buffer, "Subscribed to %s", topic);
     displayText(buffer, 40, 5);
-    ThisThread::sleep_for(100ms);
+//    client.yield(10);
     strcpy(topic, THING_NAME);
-    strcat(topic, MOTION_TOPIC); // this method fails to set up Callback correctly
-    result = client.subscribe(MOTION_TOPIC, MQTT::QOS0,
+    strcpy(topic, MOTION_TOPIC); // this method fails to set up Callback correctly
+    result = client.subscribe(RX_MOTION_TOPIC, MQTT::QOS0,
                               messageMotionArrived);
     if (result != 0)
       sprintf(buffer, "Subscription Error %d", result);
     else
       sprintf(buffer, "Subscribed to %s", topic);
     displayText(buffer, 40, 5);
-    ThisThread::sleep_for(100ms);
+ //   client.yield(10);
+
     strcpy(topic, THING_NAME);
     strcat(topic, PRESSURE_TOPIC); // this method fails to set up Callback correctly
-    result = client.subscribe(PRESSURE_TOPIC, MQTT::QOS0,
+    result = client.subscribe(RX_PRESSURE_TOPIC, MQTT::QOS0,
                               messagePressureArrived);
     if (result != 0)
       sprintf(buffer, "Subscription Error %d", result);
     else
       sprintf(buffer, "Subscribed to %s", topic);
-    displayText(buffer, 40, 5);    strcpy(topic, TIME_TOPIC);  // this method fails to set up Callback correctly
-    ThisThread::sleep_for(100ms);
+    displayText(buffer, 40, 5);    
+//    client.yield(10);
+
+    strcpy(topic, THING_NAME);
+    strcat(topic, RUN_STATUS_TOPIC); // this method fails to set up Callback correctly
+    result = client.subscribe(RX_RUN_STATUS_TOPIC, MQTT::QOS0,
+                              messageRunningStatusArrived);
+    if (result != 0)
+      sprintf(buffer, "Subscription Error %d", result);
+    else
+      sprintf(buffer, "Subscribed to %s", topic);
+    displayText(buffer, 40, 5);    
+ //   client.yield(10);
+    strcpy(topic, TIME_TOPIC);  // this method fails to set up Callback correctly
     result = client.subscribe(TIME_TOPIC, MQTT::QOS0,
                               messageTimeArrived);
     if (result != 0)

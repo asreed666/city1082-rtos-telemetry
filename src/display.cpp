@@ -49,6 +49,7 @@ void displayThread(void)
     ThisThread::sleep_for(10ms);
     cout << "\033[?25l" ;  // Hide Cursor
 #ifdef TARGET_CY8CKIT_062_WIFI_BT
+    char buffer[80];
     GUI_Init();
     GUI_Clear();
     GUI_SetFont(GUI_FONT_10_1);
@@ -76,13 +77,32 @@ void displayThread(void)
                 std::cout << "\033[2J";
 #ifdef TARGET_CY8CKIT_062_WIFI_BT
                 GUI_Clear();
+                GUI_SetFont(GUI_FONT_24B_1);
 
 #endif
             } 
             else {
                 std::cout << "\033[" << (txtMsg->y) << ";" << (txtMsg->x) << "H" << txtMsg->txt;
 #ifdef TARGET_CY8CKIT_062_WIFI_BT
-                GUI_DispStringAt(txtMsg->txt, (txtMsg->x)*6, (txtMsg->y) *12);
+                GUI_SetColor(GUI_WHITE);
+                if (((txtMsg->x)== 1)&&((txtMsg->y)==8)) {
+                    sprintf(buffer, "%s",txtMsg->txt);
+                    GUI_DispStringAt(buffer, 00, 00);
+                }
+                sprintf(buffer, "Latitude %s",myData.gpsLat);
+                GUI_DispStringAt(buffer, 00, 30);
+                sprintf(buffer, "Longitude %s",myData.gpsLong);
+                GUI_DispStringAt(buffer, 00, 60);
+                sprintf(buffer, "Air Pressure %3.0f mmHg",myData.pressure);
+                GUI_DispStringAt(buffer, 00, 90);
+                sprintf(buffer, "Temperature %2.1f C",myData.temperature);
+                GUI_DispStringAt(buffer, 00, 120);
+                sprintf(buffer, "Speed %3.1f m/s",myData.motion);
+                GUI_DispStringAt(buffer, 00, 150);
+                GUI_SetColor(myData.serviceStatus?GUI_GREEN:GUI_RED);
+                sprintf(buffer, "Service Status: %s", myData.serviceStatus?"Running":"Stopped");
+                GUI_DispStringAt(buffer, 00, 180);
+
 #endif
 
             }
