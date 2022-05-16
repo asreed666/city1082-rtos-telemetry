@@ -73,7 +73,7 @@ void sendThread(void)
 float readTemp()
 {
 #ifdef TARGET_CY8CKIT_062_WIFI_BT
-    float temperatureC = (tempVoltage.read() *210) - 50;
+    float temperatureC = (tempVoltage.read() * 220) - 50;
 #else
     float refVoltage = tempVoltage.read() * 2.4; // Range of ADC 0->2*Vref
     float refCurrent = refVoltage  / R_REFERENCE; // 10k Reference Resistor

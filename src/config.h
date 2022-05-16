@@ -14,6 +14,10 @@
 #define LIGHT_STATUS "/lightStatus"
 #define GET_TIME_TOPIC "getTime"
 #define TIME_TOPIC "timeStamp"
+#define PRESSURE_TOPIC "/pressure"
+#define LATITUDE_TOPIC "/gpsLat"
+#define LONGITUDE_TOPIC "/gpsLong"
+#define MOTION_TOPIC "/motion"
 #define MQTT_BROKER "192.168.1.176"
 #define MQTTClient_QOS2 1
 #define LEDON 0

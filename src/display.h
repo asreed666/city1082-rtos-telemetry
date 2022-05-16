@@ -26,6 +26,10 @@ struct dataSet{
     float lightLevel;
     float lightSet = 40;
     float lightThresh = 5;
+    char gpsLat[32];
+    char gpsLong[32];
+    float pressure;
+    float motion;
     bool lightStatus = false;
     bool wifiStatus = false;
     bool mqttStatus = false;
