@@ -27,8 +27,8 @@ typedef struct {
 }txt_t;
 
 extern struct dataSet myData;
-static MemoryPool<txt_t, 32> tpool;
-static Queue<txt_t, 32> tqueue;
+static MemoryPool<txt_t, 64> tpool;
+static Queue<txt_t, 64> tqueue;
 bool displayUp = false;
 
 void displayText(char * text, int xPos, int yPos) {
@@ -85,22 +85,21 @@ void displayThread(void)
                 std::cout << "\033[" << (txtMsg->y) << ";" << (txtMsg->x) << "H" << txtMsg->txt;
 #ifdef TARGET_CY8CKIT_062_WIFI_BT
                 GUI_SetColor(GUI_WHITE);
-                if (((txtMsg->x)== 1)&&((txtMsg->y)==8)) {
-                    sprintf(buffer, "%s",txtMsg->txt);
-                    GUI_DispStringAt(buffer, 00, 00);
-                }
-                sprintf(buffer, "Latitude %s",myData.gpsLat);
+                sprintf(buffer, "%s",myData.currTime);
+                GUI_DispStringAt(buffer, 00, 00);
+                
+                sprintf(buffer, "Latitude %s  ",myData.gpsLat);
                 GUI_DispStringAt(buffer, 00, 30);
-                sprintf(buffer, "Longitude %s",myData.gpsLong);
+                sprintf(buffer, "Longitude %s  ",myData.gpsLong);
                 GUI_DispStringAt(buffer, 00, 60);
-                sprintf(buffer, "Air Pressure %3.0f mmHg",myData.pressure);
+                sprintf(buffer, "Air Pressure %3.0f mmHg   ",myData.pressure);
                 GUI_DispStringAt(buffer, 00, 90);
-                sprintf(buffer, "Temperature %2.1f C",myData.temperature);
+                sprintf(buffer, "Temperature %2.1f C  ",myData.temperature);
                 GUI_DispStringAt(buffer, 00, 120);
-                sprintf(buffer, "Speed %3.1f m/s",myData.motion);
+                sprintf(buffer, "Speed %3.1f m/s   ",myData.motion);
                 GUI_DispStringAt(buffer, 00, 150);
                 GUI_SetColor(myData.serviceStatus?GUI_GREEN:GUI_RED);
-                sprintf(buffer, "Service Status: %s", myData.serviceStatus?"Running":"Stopped");
+                sprintf(buffer, "Service Status: %s     ", myData.serviceStatus?"Running":"Stopped");
                 GUI_DispStringAt(buffer, 00, 180);
 
 #endif

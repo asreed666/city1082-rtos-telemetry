@@ -19,6 +19,8 @@ void statusThread() {
         timeinfo = localtime (&rawtime);
 
         strftime (buffer,sizeof(buffer),"%c ",timeinfo);
+        strcpy(myData.currTime, buffer);
+
         displayText(buffer, 1, 8);
         ThisThread::sleep_for(500ms);
 

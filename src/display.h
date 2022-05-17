@@ -37,6 +37,7 @@ struct dataSet{
     bool mqttStatus = false;
     bool updateDisplay = false;
     bool serviceStatus = false;
+    char currTime[32];
 };
 
 void displayThread();

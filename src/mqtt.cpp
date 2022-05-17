@@ -161,6 +161,13 @@ public:
     bool currHeater = false;
     bool currLight = false;
 
+    initDisplay();
+    //displayText("Connected to wifi", 1, 1);
+
+    while(displayUp == false) {
+
+        ThisThread::sleep_for(10ms);
+    }
     nsapi_size_or_error_t result = _net->connect();
     if (result != 0) {
       sprintf(buffer, "Error! _net->connect() returned: %d\r\n", result);
@@ -169,13 +176,6 @@ public:
     } else {
       myData.wifiStatus = true;
 
-    }
-    initDisplay();
-    //displayText("Connected to wifi", 1, 1);
-
-    while(displayUp == false) {
-
-        ThisThread::sleep_for(10);
     }
     // print_network_info();
 
