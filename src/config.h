@@ -17,3 +17,6 @@
 #define MQTTClient_QOS2 1
 #define LEDON 0
 #define LEDOFF 1
+// I2C Communication
+#define SDA P6_1
+#define SCL P6_0

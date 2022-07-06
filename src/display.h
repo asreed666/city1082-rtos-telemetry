@@ -36,6 +36,8 @@ void displayThread();
 void displayText(char*, int, int);
 void initDisplay(void);
 void updateDisplay(void);
+void lcdprintat(int, int, int);
+void lcdUpdateState();
 
 
 #endif

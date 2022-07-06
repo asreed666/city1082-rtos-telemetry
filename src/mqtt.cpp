@@ -300,6 +300,11 @@ public:
             return;
           }
       }
+      if ((i & 0xf) == 0x0) {
+          lcdprintat((int) myData.lightLevel, 2, 1);
+          lcdprintat((int) myData.temperature, 2, 0);
+          lcdUpdateState();
+      }
       if (currHeater != myData.heaterStatus) {
           sprintf(buffer, "%s", myData.heaterStatus?"on":"off");
           message.payload = (void *)buffer;
