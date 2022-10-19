@@ -1,4 +1,5 @@
 
+
 #include "mbed.h"
 #include "display.h"
 #include "actuators.h"
@@ -11,11 +12,15 @@ void actuatorsThread() {
 #ifdef TARGET_CY8CKIT_062_WIFI_BT
     DigitalOut lightIndicator(P11_1);
     DigitalOut heatIndicator(P0_3);
+    DigitalOut statusOn(P13_5);
+    DigitalOut statusOff(P13_6);
     bool LED_ON = 0;
     bool LED_OFF = 1;
 #else
     DigitalOut lightIndicator(P12_3);
     DigitalOut heatIndicator(P0_5);
+    DigitalOut statusOn(P12_0);
+    DigitalOut statusOff(P12_5);
     bool LED_ON = 1;
     bool LED_OFF = 0;
 #endif
@@ -46,6 +51,15 @@ void actuatorsThread() {
 //            sprintf(buffer, "%s", (heatIndicator ^ TARGET_CY8CKIT_062_WIFI_BT)?
 //                    "\033[1;31mON  \033[1;37m":"\033[1;32mOFF\033[1;37m");
 //            displayText(buffer, 63, 2);
+        }
+
+        if (myData.serviceStatus) {
+            statusOn = LED_ON;
+            statusOff = LED_OFF;
+        }
+        else {
+            statusOn = LED_OFF;
+            statusOff = LED_ON;
         }
         ThisThread::sleep_for(100ms);
     }

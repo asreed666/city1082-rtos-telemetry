@@ -2,38 +2,28 @@
  * Copyright (c) 2006-2020 Arm Limited and affiliates.
  * SPDX-License-Identifier: Apache-2.0
  */
-#include <mbed.h>
+#include "mbed.h"
+#include "GUI.h"
 #include <ios>
 #include <iostream>
+#include "string.h"
+#include "config.h"
 #include <iomanip>
 #include "display.h"
-#include "sensors.h"
-#include "status.h"
-#include "actuators.h"
-#include "mqtt.h"
-
-// This is my version of main.cpp Andrew
-
-// Global data packet
+#include "vt100.h"
 
 struct dataSet myData;
 
-Thread sendingThreadHandle;
-Thread displayThreadHandle;
-Thread statusRunningThreadHandle;
-Thread actuatorThreadHandle;
-Thread mqttThreadHandle;
 
-int main(void)
-{
+int main(void) {
 
-    sendingThreadHandle.start(callback(sendThread));
-    displayThreadHandle.start(callback(displayThread));
-    statusRunningThreadHandle.start(callback(statusThread));
-    actuatorThreadHandle.start(callback(actuatorsThread));
-    mqttThreadHandle.start(callback(mqttThread));
-    while (true) {
-        ThisThread::sleep_for(1000ms);
-    }
-    /* never get here */
+    char buffer[80];
+    GUI_Init();
+    GUI_Clear();
+    GUI_SetFont(GUI_FONT_20B_1);
+    GUI_SetColor(GUI_WHITE);
+    GUI_SetBkColor(GUI_BLACK);
+    GUI_SetTextAlign(GUI_TA_CENTER);
+    GUI_DispStringAt("CITY3032", 120, 10);
+
 }
