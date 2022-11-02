@@ -8,7 +8,6 @@ compile_commands?json
 compile_commands.json
 .clangd
 .cache
-wifi-ism43362
 mbed-mqtt
 emwin
 mbed-os-emwin-st7789v
