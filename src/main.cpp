@@ -80,7 +80,6 @@ int main(void) {
         GUI_SetColor(GUI_WHITE);
         vibCount = 0;
         ThisThread::sleep_for(100);
-
     }
     printf("Done\n");
 
