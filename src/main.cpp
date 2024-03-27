@@ -15,30 +15,30 @@
 
 AnalogIn lightLevel(ALS_OUT);
 AnalogIn temperatureVoltage(P10_6);
-InterruptIn vibration(P1_3);
+//InterruptIn vibration(P1_3);
 DigitalOut vcc(P9_6);
-DigitalOut vcc2(P1_4);
+DigitalOut trigger(P1_4);
+InterruptIn echo(P1_3);
 DigitalOut led(LED1);
 DigitalOut led2(LED4);
+static int timeEchoUs;
+static Timer echoTime, trigTime;
 
-static int vibCount = 0;
 
-void vibrated() {
-    vibCount++;
+void echoed() {
+    echoTime.stop();
+    timeEchoUs = echoTime.read_us();
     led = !led;
-    led2 = 1;
 }
 
 int main(void) {
 
 
     vcc = true;
-    vcc2 = true;
-    led2 = 0;
     float als;
-    vibration.rise(&vibrated);
-    vibration.enable_irq();
-    bool vibDetected = false;
+    echo.rise(&echoed);
+    echo.enable_irq();
+//    bool vibDetected = false;
 //    int vibCount = 0;
     float temperature;
     char buffer[80];
@@ -61,7 +61,7 @@ int main(void) {
         GUI_DispStringAt(buffer, 50, 40);
         sprintf(buffer, "Temperature is %2.1fC  ", temperature);
         GUI_DispStringAt(buffer, 50, 60);
-        sprintf(buffer, "Vibrations/ sec detected %2d  ", vibCount*10);
+        sprintf(buffer, "Echo Time %2d uS  ", timeEchoUs);
         GUI_DispStringAt(buffer, 50, 80);
 
 //        GUI_DrawFrame(15, 235, 55, 10, 4);
@@ -74,11 +74,16 @@ int main(void) {
         GUI_SetColor(GUI_RED);
         GUI_FillRect(120, 230-(int)temperature*2, 150, 230 );
         GUI_SetColor(GUI_GREEN);
-        GUI_FillRect(220, 230, 250, 230-(int)vibCount) ;
+        GUI_FillRect(220, 230, 250, 230-(int)timeEchoUs) ;
         GUI_SetColor(GUI_RED);
-        GUI_FillRect(220, 230-(int)vibCount, 250, 230 );
+        GUI_FillRect(220, 230-(int)timeEchoUs, 250, 230 );
         GUI_SetColor(GUI_WHITE);
-        vibCount = 0;
+        timeEchoUs = 0;
+        trigger = 1; // start measurements
+        trigTime.start();
+        trigger = 0;
+        while (trigTime.read_us() < 11) {;}
+        echoTime.start();
         ThisThread::sleep_for(100);
 
     }
