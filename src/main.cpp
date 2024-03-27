@@ -82,8 +82,8 @@ int main(void) {
         timeEchoUs = 0;
         trigger = 1; // start measurements
         trigTime.start();
+        while (trigTime.read_us() < 11) {trigger = 1;}
         trigger = 0;
-        while (trigTime.read_us() < 11) {;}
         echoTime.start();
         ThisThread::sleep_for(500);
 
