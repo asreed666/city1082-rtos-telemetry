@@ -21,7 +21,7 @@ DigitalOut trigger(P1_3);
 InterruptIn echo(P1_4);
 DigitalOut led(LED1);
 DigitalOut led2(LED4);
-static int timeEchoUs;
+volatile int timeEchoUs;
 static Timer echoTime, trigTime;
 
 
@@ -29,7 +29,7 @@ void echoed() {
     echoTime.stop();
     timeEchoUs = echoTime.read_us();
     led = !led;
-}
+} 
 
 int main(void) {
 
@@ -86,6 +86,7 @@ int main(void) {
         while ((trigTime.read_us() - elapsed) < 11) {trigger = 1;}
         trigger = 0;
         echoTime.start();
+        while ()
         ThisThread::sleep_for(500);
 
     }
