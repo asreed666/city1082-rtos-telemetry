@@ -65,7 +65,7 @@ int main(void) {
         GUI_DispStringAt(buffer, 50, 80);
 
 //        GUI_DrawFrame(15, 235, 55, 10, 4);
-        GUI_SetColor(GUI_GREEN);
+/*        GUI_SetColor(GUI_GREEN);
         GUI_FillRect(20, 130, 50, 230-(int)als) ;
         GUI_SetColor(GUI_CYAN);
         GUI_FillRect(20, 230-(int)als, 50, 230 );
@@ -78,13 +78,14 @@ int main(void) {
         GUI_SetColor(GUI_RED);
         GUI_FillRect(220, 230-(int)timeEchoUs, 250, 230 );
         GUI_SetColor(GUI_WHITE);
+*/
         timeEchoUs = 0;
         trigger = 1; // start measurements
         trigTime.start();
         trigger = 0;
         while (trigTime.read_us() < 11) {;}
         echoTime.start();
-        ThisThread::sleep_for(100);
+        ThisThread::sleep_for(500);
 
     }
     printf("Done\n");
