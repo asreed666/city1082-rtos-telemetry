@@ -85,10 +85,14 @@ int main(void) {
         int elapsed = trigTime.read_us();
         while ((trigTime.read_us() - elapsed) < 11) {trigger = 1;}
         trigger = 0;
-        echoTime.start();
-        while ((echo.read() == 1) and (echoTime.read_ms() < 250 )) {
+        echoTime.start(); 
+        while ((echo.read() == 0) and (echoTime.read_ms() < 250 )) {
+            ;
+        }
+        while ((echo.read() == 1) and (echoTime.read_ms() < 500 )) {
             timeEchoUs = echoTime.read_us();
         }
+        
         ThisThread::sleep_for(500);
 
     }
