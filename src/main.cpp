@@ -18,26 +18,26 @@ AnalogIn temperatureVoltage(P10_6);
 //InterruptIn vibration(P1_3);
 DigitalOut vcc(P9_6);
 DigitalOut trigger(P1_3);
-InterruptIn echo(P1_4);
+DigitalIn echo(P1_4);
 DigitalOut led(LED1);
 DigitalOut led2(LED4);
 volatile int timeEchoUs;
 static Timer echoTime, trigTime;
 
 
-void echoed() {
+/*void echoed() {
     echoTime.stop();
     timeEchoUs = echoTime.read_us();
     led = !led;
-} 
+} */
 
 int main(void) {
 
 
     vcc = true;
     float als;
-    echo.rise(&echoed);
-    echo.enable_irq();
+//    echo.rise(&echoed);
+//    echo.enable_irq();
 //    bool vibDetected = false;
 //    int vibCount = 0;
     float temperature;
@@ -86,7 +86,9 @@ int main(void) {
         while ((trigTime.read_us() - elapsed) < 11) {trigger = 1;}
         trigger = 0;
         echoTime.start();
-        while ()
+        while ((echo.read() == 1) and (echoTime.read_ms() < 250 )) {
+            timeEchoUs = echoTime.read_us();
+        }
         ThisThread::sleep_for(500);
 
     }
